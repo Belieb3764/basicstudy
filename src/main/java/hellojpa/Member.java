@@ -12,6 +12,18 @@ public class Member {
     private Long id;
     private String name;
 
+    public Member() {
+    }
+
+    public Member(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Member(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
