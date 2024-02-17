@@ -17,17 +17,57 @@ public class JpaMain {
         tx.begin();
 
         try {
+
+            /**
+             * initialValue, allocationSize 값 정하고 차례대로 sequence붙는거 확인
+             */
+            Member member1 = new Member();
+            member1.setUsername("A");
+
+            Member member2 = new Member();
+            member2.setUsername("B");
+
+            Member member3 = new Member();
+            member3.setUsername("C");
+
+            System.out.println("===============================");
+
+            em.persist(member1);
+            em.persist(member2);
+            em.persist(member3);
+
+            System.out.println("member1 = " + member1);
+            System.out.println("member2 = " + member2);
+            System.out.println("member3 = " + member3);
+
+
+            System.out.println("===============================");
+
+
+
+            /**
+             * generationType 테스트진행하였으나 h2버전 오류
+             */
+            //            Member member = new Member();
+            ////            member.setId(3L);
+            //            member.setUsername("C");
+            ////            member.setRoleType(RoleType.GUEST);
+            //            System.out.println("=====================");
+            //            em.persist(member);
+            //            System.out.println("member.id = " + member.getId());
+            //            System.out.println("=====================");
+
             /**
              * 준영속
              */
-            Member member =  em.find(Member.class, 105L);
-            member.setName("AAAAA");
-
-            em.detach(member); // 특정 엔티티만 준영속 상태로 전환
-//            em.clear(); // 영속성 컨텍스트를 완전히 초기화
-//            em.close(); // 영속성 컨텍스트를 종료
-
-            System.out.println("==========================");
+            //            Member member =  em.find(Member.class, 105L);
+//            member.setName("AAAAA");
+//
+//            em.detach(member); // 특정 엔티티만 준영속 상태로 전환
+////            em.clear(); // 영속성 컨텍스트를 완전히 초기화
+////            em.close(); // 영속성 컨텍스트를 종료
+//
+//            System.out.println("==========================");
 
             /**
              * flush 플러시
