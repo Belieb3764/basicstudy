@@ -14,24 +14,26 @@ import java.util.Date;
 //        name = "MEMBER_SEQ_GENERATOR",
 //        table = "MY_SEQUENCES",
 //        pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
-@SequenceGenerator(
-        name = "MEMBER_SEQ_GENERATOR",
-        sequenceName = "MY_SEQUENCES",
-        initialValue = 1 , allocationSize = 50)
+//@SequenceGenerator(
+//        name = "MEMBER_SEQ_GENERATOR",
+//        sequenceName = "MY_SEQUENCES",
+//        initialValue = 1 , allocationSize = 50)
 public class Member {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE,
-    generator = "MEMBER_SEQ_GENERATOR")
-//    @GeneratedValue(strategy = GenerationType.TABLE,
-//            generator = "MEMBER_SEQ_GENERATOR")
+    @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
-    @Column(name = "name", nullable = false)
+
+    @Column(name = "USERNAME")
     private String username;
 
-    public Member() {
+//    @Column(name = "TEAM")
+//    private Long teamId;
 
-    }
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     public Long getId() {
         return id;
@@ -48,6 +50,71 @@ public class Member {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+
+    //    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+//
+//    public Long getTeamId() {
+//        return teamId;
+//    }
+//
+//    public void setTeamId(Long teamId) {
+//        this.teamId = teamId;
+//    }
+
+    /**
+     * 기본 매핑 테스트
+     */
+//    @Id
+//    @GeneratedValue (strategy = GenerationType.SEQUENCE,
+//    generator = "MEMBER_SEQ_GENERATOR")
+////    @GeneratedValue(strategy = GenerationType.TABLE,
+////            generator = "MEMBER_SEQ_GENERATOR")
+//    private Long id;
+//    @Column(name = "name", nullable = false)
+//    private String username;
+//
+//    public Member() {
+//
+//    }
+//
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
 
     //    public String getId() {
 //        return id;
