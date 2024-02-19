@@ -18,30 +18,74 @@ public class JpaMain {
 
         try {
 
-            //저장
             Team team = new Team();
             team.setName("TeamA");
             em.persist(team);
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
+            member.ChangeTeam(team);
             em.persist(member);
+
 
             em.flush();
             em.clear();
-
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
             
+            Team findTeam = em.find(Team.class, team.getId()); // 1차캐시
+            List<Member> members = findTeam.getMembers();
+
+            System.out.println("======================");
             for (Member m : members) {
                 System.out.println("m.getUsername() = " + m.getUsername());
             }
             
-
-//            Team findTeam = findMember.getTeam();
-//            System.out.println("findTeam.getName() = " + findTeam.getName());
+            
+            /**
+             * 양방향 매핑시 주의할점
+             */
+            //            Team team = new Team();
+//            team.setName("TeamA");
+////            team.getMembers().add(member); //team_id에 null값이 들어가는것을확인
+////            양방향 매핑시 가장 많이하는 실수로 연관관계 주인에 값을 입력하지 않으므로 발생하는 null
+//            em.persist(team);
 //
+//            Member member = new Member();
+//            member.setUsername("member1");
+//            member.setTeam(team);
+//            em.persist(member);
+//
+//
+//            em.flush();
+//            em.clear();
+
+
+            /**
+             * 양방향연관관계 기본테스트
+             */
+            //            //저장
+            //            Team team = new Team();
+            //            team.setName("TeamA");
+            //            em.persist(team);
+            //
+            //            Member member = new Member();
+            //            member.setUsername("member1");
+            //            member.setTeam(team);
+            //            em.persist(member);
+            //
+            //            em.flush();
+            //            em.clear();
+            //
+            //            Member findMember = em.find(Member.class, member.getId());
+            //            List<Member> members = findMember.getTeam().getMembers();
+            //
+            //            for (Member m : members) {
+            //                System.out.println("m.getUsername() = " + m.getUsername());
+            //            }
+
+
+            //            Team findTeam = findMember.getTeam();
+            //            System.out.println("findTeam.getName() = " + findTeam.getName());
+            //
 
 
             /**
