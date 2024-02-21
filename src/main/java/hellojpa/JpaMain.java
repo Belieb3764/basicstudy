@@ -17,27 +17,40 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Movie movie = new Movie();
+            movie.setDirector("aaaa");
+            movie.setActor("bbbb");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(10000);
 
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
-
-            Member member = new Member();
-            member.setUsername("member1");
-            member.ChangeTeam(team);
-            em.persist(member);
-
+            em.persist(movie);
 
             em.flush();
             em.clear();
-            
-            Team findTeam = em.find(Team.class, team.getId()); // 1차캐시
-            List<Member> members = findTeam.getMembers();
 
-            System.out.println("======================");
-            for (Member m : members) {
-                System.out.println("m.getUsername() = " + m.getUsername());
-            }
+            Movie findmovie = em.find(Movie.class, movie.getId());
+            System.out.println("findmovie = " + findmovie);
+
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setUsername("member1");
+//            member.ChangeTeam(team);
+//            em.persist(member);
+//
+//
+//            em.flush();
+//            em.clear();
+//
+//            Team findTeam = em.find(Team.class, team.getId()); // 1차캐시
+//            List<Member> members = findTeam.getMembers();
+//
+//            System.out.println("======================");
+//            for (Member m : members) {
+//                System.out.println("m.getUsername() = " + m.getUsername());
+//            }
             
             
             /**
