@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 //@Table(name="MBR")
@@ -18,7 +20,7 @@ import java.util.Date;
 //        name = "MEMBER_SEQ_GENERATOR",
 //        sequenceName = "MY_SEQUENCES",
 //        initialValue = 1 , allocationSize = 50)
-public class Member {
+public class Member extends BaseEntity{
 
     @Id
     @GeneratedValue
@@ -32,8 +34,15 @@ public class Member {
 //    private Long teamId;
 
     @ManyToOne
-    @JoinColumn(name = "TEAM_ID")
+    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
     private Team team;
+
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -55,13 +64,28 @@ public class Member {
         return team;
     }
 
-    public void ChangeTeam(Team team) {
+    public void setTeam(Team team) {
         this.team = team;
-        team.getMembers().add(this);
+    }
+
+    public Locker getLocker() {
+        return locker;
+    }
+
+    public void setLocker(Locker locker) {
+        this.locker = locker;
+    }
+
+    public List<MemberProduct> getMemberProducts() {
+        return memberProducts;
+    }
+
+    public void setMemberProducts(List<MemberProduct> memberProducts) {
+        this.memberProducts = memberProducts;
     }
 
 
-    //    public Long getId() {
+//    public Long getId() {
 //        return id;
 //    }
 //

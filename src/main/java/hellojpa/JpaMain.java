@@ -3,6 +3,8 @@ package hellojpa;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -17,20 +19,39 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Movie movie = new Movie();
-            movie.setDirector("aaaa");
-            movie.setActor("bbbb");
-            movie.setName("바람과함께사라지다");
-            movie.setPrice(10000);
+            Member member = new Member();
+            member.setUsername("user1");
+            member.setCreatedBy("kim");
+            member.setCreatedDate(LocalDate.from(LocalDateTime.now()));
 
-            em.persist(movie);
+            em.persist(member);
 
             em.flush();
             em.clear();
 
-            Movie findmovie = em.find(Movie.class, movie.getId());
-            System.out.println("findmovie = " + findmovie);
 
+
+            /**
+             * 팀 예시 및 다양한 조인,단일전략테스트
+             */
+
+//            Movie movie = new Movie();
+//            movie.setDirector("aaaa");
+//            movie.setActor("bbbb");
+//            movie.setName("바람과함께사라지다");
+//            movie.setPrice(10000);
+//
+//            em.persist(movie);
+//
+//            em.flush();
+//            em.clear();
+//
+//            Movie findmovie = em.find(Movie.class, movie.getId());
+//            System.out.println("findmovie = " + findmovie);
+
+            /**
+             * 팀 예시 및 다양한 조인,단일전략테스트
+             */
 //            Team team = new Team();
 //            team.setName("TeamA");
 //            em.persist(team);
