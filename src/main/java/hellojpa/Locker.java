@@ -1,4 +1,7 @@
-package hellojpa;
-
-public class Locker {
-}
+//package hellojpa;
+//
+//import jakarta.persistence.Entity;
+//
+//@Entity
+//public class Locker {
+//}

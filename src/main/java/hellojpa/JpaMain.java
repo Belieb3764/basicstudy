@@ -2,6 +2,7 @@ package hellojpa;
 
 
 import jakarta.persistence.*;
+import org.hibernate.Hibernate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,59 +20,128 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("user1");
-            member.setCreatedBy("kim");
-            member.setCreatedDate(LocalDate.from(LocalDateTime.now()));
 
-            em.persist(member);
+            /**
+             * 프록시 초기화
+             */
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            em.persist(member1);
 
             em.flush();
             em.clear();
 
+            Member refMember = em.getReference(Member.class, member1.getId());
+            System.out.println("refMember = " + refMember.getClass()); //Proxy
+            Hibernate.initialize(refMember); //강제 초기화
+//            refMember.getUsername();
+//            System.out.println(" isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(refMember));
+
+
+
+
+            /**
+             * 프록시 비교
+             */
+
+            //            Member member1 = new Member();
+            //                member1.setUsername("member1");
+            //                em.persist(member1);
+            //
+            //                em.flush();
+            //                em.clear();
+            //
+            //                Member m1 = em.find(Member.class, member1.getId());
+            //                System.out.println("m1.getClass() = " + m1.getClass());
+            //
+            //                Member reference =  em.getReference(Member.class, member1.getId());
+            //                System.out.println("reference.getClass() = " + reference.getClass()); //Proxy
+            //
+            //                System.out.println("(m1 == reference) = " + (m1 == reference)); //true
+
+//                Member member2 = new Member();
+//                member1.setUsername("member2");
+//                em.persist(member2);
+//
+//                em.flush();
+//                em.clear();
+//
+//
+//                Member m1= em.find(Member.class, member1.getId());
+//                Member m2= em.find(Member.class, member2.getId());
+//    
+//                System.out.println("m1 == m2 : " + (m1.getClass() == m2.getClass()));
+
+
+//            Member findMember = em.find(Member.class, member.getId());
+//            System.out.println("findMember.id = " + findMember.getId());
+//            System.out.println("findMember.username = " + findMember.getUsername());
+
+
+            /**
+             * 팀만 조회할시 문제점(낭비) => JPA 는 지연로딩과, 프록시로 해결
+             *
+             */
+
+            //            Member member = em.find(Member.class, 1L);
+            ////            printMemberAndTeam(member);
+            //
+            //            printMember(member);
+
+            //            Member member = new Member();
+            //            member.setUsername("user1");
+            //            member.setCreatedBy("kim");
+            //            member.setCreatedDate(LocalDate.from(LocalDateTime.now()));
+            //
+            //            em.persist(member);
+            //
+            //            em.flush();
+            //            em.clear();
+
 
 
             /**
              * 팀 예시 및 다양한 조인,단일전략테스트
              */
 
-//            Movie movie = new Movie();
-//            movie.setDirector("aaaa");
-//            movie.setActor("bbbb");
-//            movie.setName("바람과함께사라지다");
-//            movie.setPrice(10000);
-//
-//            em.persist(movie);
-//
-//            em.flush();
-//            em.clear();
-//
-//            Movie findmovie = em.find(Movie.class, movie.getId());
-//            System.out.println("findmovie = " + findmovie);
+            //            Movie movie = new Movie();
+            //            movie.setDirector("aaaa");
+            //            movie.setActor("bbbb");
+            //            movie.setName("바람과함께사라지다");
+            //            movie.setPrice(10000);
+            //
+            //            em.persist(movie);
+            //
+            //            em.flush();
+            //            em.clear();
+            //
+            //            Movie findmovie = em.find(Movie.class, movie.getId());
+            //            System.out.println("findmovie = " + findmovie);
 
             /**
              * 팀 예시 및 다양한 조인,단일전략테스트
              */
-//            Team team = new Team();
-//            team.setName("TeamA");
-//            em.persist(team);
-//
-//            Member member = new Member();
-//            member.setUsername("member1");
-//            member.ChangeTeam(team);
-//            em.persist(member);
-//
-//
-//            em.flush();
-//            em.clear();
-//
-//            Team findTeam = em.find(Team.class, team.getId()); // 1차캐시
-//            List<Member> members = findTeam.getMembers();
-//
-//            System.out.println("======================");
-//            for (Member m : members) {
-//                System.out.println("m.getUsername() = " + m.getUsername());
-//            }
+
+            //            Team team = new Team();
+            //            team.setName("TeamA");
+            //            em.persist(team);
+            //
+            //            Member member = new Member();
+            //            member.setUsername("member1");
+            //            member.ChangeTeam(team);
+            //            em.persist(member);
+            //
+            //
+            //            em.flush();
+            //            em.clear();
+            //
+            //            Team findTeam = em.find(Team.class, team.getId()); // 1차캐시
+            //            List<Member> members = findTeam.getMembers();
+            //
+            //            System.out.println("======================");
+            //            for (Member m : members) {
+            //                System.out.println("m.getUsername() = " + m.getUsername());
+            //            }
             
             
             /**
@@ -249,6 +319,23 @@ public class JpaMain {
         emf.close();
 
     }
+
+    /**
+     * 팀만 조회할시 문제점(낭비) => JPA 는 지연로딩과, 프록시로 해결
+     *
+     */
+    //    private static void printMember(Member member) {
+    //        System.out.println("member = " + member.getUsername());
+    //    }
+    //
+    //    private static void printMemberAndTeam(Member member) {
+    //
+    //        String username = member.getUsername();
+    //        System.out.println("username = " + username);
+    //
+    //        Team team = member.getTeam();
+    //        System.out.println("team = " + team.getName());
+    //    }
 }
 
 
