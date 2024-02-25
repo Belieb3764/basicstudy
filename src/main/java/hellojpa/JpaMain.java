@@ -22,18 +22,18 @@ public class JpaMain {
         try {
 
             /**
-             * 프록시 초기화
+             * 프록시 초기화 및 테스트
              */
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            em.persist(member1);
-
-            em.flush();
-            em.clear();
-
-            Member refMember = em.getReference(Member.class, member1.getId());
-            System.out.println("refMember = " + refMember.getClass()); //Proxy
-            Hibernate.initialize(refMember); //강제 초기화
+//            Member member1 = new Member();
+//            member1.setUsername("member1");
+//            em.persist(member1);
+//
+//            em.flush();
+//            em.clear();
+//
+//            Member refMember = em.getReference(Member.class, member1.getId());
+//            System.out.println("refMember = " + refMember.getClass()); //Proxy
+//            Hibernate.initialize(refMember); //강제 초기화
 //            refMember.getUsername();
 //            System.out.println(" isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(refMember));
 
