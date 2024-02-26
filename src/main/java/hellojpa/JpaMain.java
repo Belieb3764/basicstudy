@@ -22,7 +22,7 @@ public class JpaMain {
         try {
 
             /**
-             * 프록시 초기화 및 테스트
+             * 프록시 초기화
              */
 //            Member member1 = new Member();
 //            member1.setUsername("member1");
