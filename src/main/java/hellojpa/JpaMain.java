@@ -22,19 +22,35 @@ public class JpaMain {
         try {
 
             /**
+             * 영속성 전이 CASCADE
+             * cascade는 연쇄라고 생각하면된다. 부모로 persist 하면 연관된 애도 같이 저장해준다.
+             */
+
+            Child child1 = new Child();
+            Child child2 = new Child();
+
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent);
+//            em.persist(child1);
+//            em.persist(child2);
+
+            /**
              * 지연로딩 사용해서 프록시 조회
              */
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
-
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setTeam(team);
-            em.persist(member1);
-
-            em.flush();
-            em.clear();
+//            Team team = new Team();
+//            team.setName("teamA");
+//            em.persist(team);
+//
+//            Member member1 = new Member();
+//            member1.setUsername("member1");
+//            member1.setTeam(team);
+//            em.persist(member1);
+//
+//            em.flush();
+//            em.clear();
 
 //            Member m = em.getReference(Member.class, member1.getId()); // m = class hellojpa.Team$HibernateProxy$sHjkg3f
 
