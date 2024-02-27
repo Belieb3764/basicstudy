@@ -30,12 +30,17 @@ public class Member extends BaseEntity{
     @Column(name = "USERNAME")
     private String username;
 
+    @ManyToOne(fetch = FetchType.LAZY) // 지연로딩을 셋팅하면 연관관계를 proxy로 조회
+    @JoinColumn
+    private Team team;
+
+// 프록시 초기화 사용할때 사용
 //    @Column(name = "TEAM")
 //    private Long teamId;
 
-    @ManyToOne
-    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
-    private Team team;
+//    @ManyToOne
+//    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
+//    private Team team;
 
 //    @OneToOne
 //    @JoinColumn(name = "LOCKER_ID")

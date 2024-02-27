@@ -22,6 +22,36 @@ public class JpaMain {
         try {
 
             /**
+             * 지연로딩 사용해서 프록시 조회
+             */
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            member1.setTeam(team);
+            em.persist(member1);
+
+            em.flush();
+            em.clear();
+
+//            Member m = em.getReference(Member.class, member1.getId()); // m = class hellojpa.Team$HibernateProxy$sHjkg3f
+
+//            System.out.println("m = " + m.getTeam().getClass());
+//
+//            // 지연로딩 프록시 조회를 확인할수있음
+//            System.out.println("================================");
+//            m.getTeam().getName(); // 초기화
+//            System.out.println("================================");
+
+            List<Member> members = em.createQuery("select m from Member m join fetch m.team", Member.class)
+                    .getResultList();
+
+            // SQL : select * from Member
+            // SQL : select * from Team where TEAM_ID = xxx
+
+            /**
              * 프록시 초기화
              */
 //            Member member1 = new Member();
