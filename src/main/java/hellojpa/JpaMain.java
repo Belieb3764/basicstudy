@@ -22,18 +22,69 @@ public class JpaMain {
         try {
 
             /**
+             * 값 타입 비교
+             */
+
+            int a = 10;
+            int b = 10;
+
+            System.out.println("a == b : " + (a == b));
+
+            Address address1 = new Address("city", "street", "10000");
+            Address address2 = new Address("city", "street", "10000");
+
+            System.out.println("address1 == address2 : " + (address1 == address2));
+            /**
+             * 이렇게 equals로 같은지를 비교하고싶으면 Address에서 equalsd와 hashcode 오버라이딩해서 써야지만 true값을 얻을 수 있음
+             */
+            System.out.println("address1 equals address2 = " + (address1.equals(address2))); // 이렇게 단순 equals 비교를하면 equals 기본은 == 비교라 false가 출력
+
+            /**
+             * 불변객체 new city가 두번저장되는것을 copyAdress를 만들어 한번만 저장되도록 변경
+             */
+
+
+//                Address address = new Address("city", "street", "10000");
+//
+//
+//                Member member = new Member();
+//                member.setUsername("member1");
+//                member.setHomeAddress(address);
+//                em.persist(member);
+//
+//            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+//
+//            Member member2 = new Member();
+//                member.setUsername("member2");
+//                member.setHomeAddress(copyAddress);
+//                em.persist(member2);
+//
+//                //
+//                member.getHomeAddress().setCity("newCity");
+//
+
+            /**
+             * embedded 타입으로 주소, 시간등 분리해서 테스트
+             */
+//            Member member = new Member();
+//            member.setUsername("hello");
+//            member.setHomeAddress(new Address("city", "street", "10000"));
+//            member.setWorkPeriod(new Period());
+//
+//            em.persist(member);
+            /**
              * 영속성 전이 CASCADE
              * cascade는 연쇄라고 생각하면된다. 부모로 persist 하면 연관된 애도 같이 저장해준다.
              */
 
-            Child child1 = new Child();
-            Child child2 = new Child();
-
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent);
+//            Child child1 = new Child();
+//            Child child2 = new Child();
+//
+//            Parent parent = new Parent();
+//            parent.addChild(child1);
+//            parent.addChild(child2);
+//
+//            em.persist(parent);
 //            em.persist(child1);
 //            em.persist(child2);
 
@@ -61,8 +112,8 @@ public class JpaMain {
 //            m.getTeam().getName(); // 초기화
 //            System.out.println("================================");
 
-            List<Member> members = em.createQuery("select m from Member m join fetch m.team", Member.class)
-                    .getResultList();
+//            List<Member> members = em.createQuery("select m from Member m join fetch m.team", Member.class)
+//                    .getResultList();
 
             // SQL : select * from Member
             // SQL : select * from Team where TEAM_ID = xxx
