@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
 
@@ -20,24 +21,76 @@ public class JpaMain {
         tx.begin();
 
         try {
+            /**
+             * 값 타입 컬렉션 사용
+             */
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("homeCity", "street", "10001"));
+
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
+            member.getFavoriteFoods().add("치킨");
+
+            member.getAddressesHistory().add(new AddressEntity("old1", "street", "10002"));
+            member.getAddressesHistory().add(new AddressEntity("old2", "street", "10002"));
+
+//            member.getAddressesHistory().add(new Address("old1", "street", "10002"));
+//            member.getAddressesHistory().add(new Address("old2", "street", "10002"));
+
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            System.out.println("================START=================");
+            Member findMember = em.find(Member.class, member.getId());
+
+//            // homeCity -> newCity;
+//            Address a  =  findMember.getHomeAddress();
+//            findMember.setHomeAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
+//
+//            // 치킨 -> 한식
+//            findMember.getFavoriteFoods().remove("치킨");
+//            findMember.getFavoriteFoods().add("한식");
+
+
+//            // 여기에서 equals 오버라이딩 제대로 안되어있으면 작동x
+//            findMember.getAddressesHistory().remove(new Address("old1", "street", "10002"));
+//            findMember.getAddressesHistory().add(new Address("newCity", "street", "10002"));
+
+
+            // 값타입 컬렉션확인 및 값타입 컬렉션도 지연 로딩 전략 사용
+//            System.out.println("================START=================");
+//            Member findMember = em.find(Member.class, member.getId());
+//
+//            List<Address> addressesHistory = findMember.getAddressesHistory();
+//            for(Address address : addressesHistory) {
+//                System.out.println("address = " + address.getCity());
+//            }
+//
+//            Set<String> favoriteFoods = findMember.getFavoriteFoods();
+//            for (String favoriteFood :  favoriteFoods) {
+//                System.out.println("favoriteFood = " + favoriteFood);
+//            }
 
             /**
              * 값 타입 비교
              */
 
-            int a = 10;
-            int b = 10;
-
-            System.out.println("a == b : " + (a == b));
-
-            Address address1 = new Address("city", "street", "10000");
-            Address address2 = new Address("city", "street", "10000");
-
-            System.out.println("address1 == address2 : " + (address1 == address2));
-            /**
-             * 이렇게 equals로 같은지를 비교하고싶으면 Address에서 equalsd와 hashcode 오버라이딩해서 써야지만 true값을 얻을 수 있음
-             */
-            System.out.println("address1 equals address2 = " + (address1.equals(address2))); // 이렇게 단순 equals 비교를하면 equals 기본은 == 비교라 false가 출력
+//            int a = 10;
+//            int b = 10;
+//
+//            System.out.println("a == b : " + (a == b));
+//
+//            Address address1 = new Address("city", "street", "10000");
+//            Address address2 = new Address("city", "street", "10000");
+//
+//            System.out.println("address1 == address2 : " + (address1 == address2));
+//            /**
+//             * 이렇게 equals로 같은지를 비교하고싶으면 Address에서 equalsd와 hashcode 오버라이딩해서 써야지만 true값을 얻을 수 있음
+//             */
+//            System.out.println("address1 equals address2 = " + (address1.equals(address2))); // 이렇게 단순 equals 비교를하면 equals 기본은 == 비교라 false가 출력
 
             /**
              * 불변객체 new city가 두번저장되는것을 copyAdress를 만들어 한번만 저장되도록 변경
