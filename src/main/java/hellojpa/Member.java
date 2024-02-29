@@ -28,6 +28,11 @@ public class Member{
     @Column(name = "USERNAME")
     private String username;
 
+    /**
+     * 값 타입 컬렉션 예제
+     */
+
+
     @Embedded
     private Address homeAddress;
 
